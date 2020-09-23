@@ -33,8 +33,8 @@ namespace DatingApp.API
         {
             //inject from nuget Microsoft.EntityFrameworkCore.Sqlite
              services.AddDbContext<DataContext>(x=> x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-             services.AddControllers();
              services.AddCors();
+             services.AddControllers();
              services.AddScoped<IAuthRepository, AuthRepository>();
              services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options=> {
@@ -58,8 +58,8 @@ namespace DatingApp.API
 
             // app.UseHttpsRedirection();
 
-            app.UseRouting();
-            app.UseCors(x=> x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+             app.UseRouting();
+          app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseAuthorization();
 

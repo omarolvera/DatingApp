@@ -16,7 +16,7 @@ namespace DatingApp.API.Controllers
     
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerContext
+    public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
