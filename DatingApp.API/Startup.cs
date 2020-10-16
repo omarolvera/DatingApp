@@ -20,6 +20,7 @@ using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using DatingApp.API.Helpers;
+using AutoMapper;
 
 namespace DatingApp.API
 {
@@ -36,10 +37,17 @@ namespace DatingApp.API
         public void ConfigureServices(IServiceCollection services)
         {
             //inject from nuget Microsoft.EntityFrameworkCore.Sqlite
-             services.AddDbContext<DataContext>(x=> x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+             services.AddDbContext<DataContext>(x=> 
+             x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
              services.AddCors();
-             services.AddControllers();
+             services.AddAutoMapper(typeof(DatingRepository).Assembly);
+             services.AddControllers().AddNewtonsoftJson(opt =>
+             {
+                 opt.SerializerSettings.ReferenceLoopHandling =
+                 Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+             });
              services.AddScoped<IAuthRepository, AuthRepository>();
+             services.AddScoped<IDatingRepository, DatingRepository>();
              services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options=> {
                         options.TokenValidationParameters = new TokenValidationParameters{
@@ -78,7 +86,7 @@ namespace DatingApp.API
             // app.UseHttpsRedirection();
 
              app.UseRouting();
-          app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -11,6 +11,6 @@
   ],
   "include": [
     "src/**/*.d.ts",
-    "typings.d.ts" // add this line
+    "typings.d.ts"// add this line
   ]
 }
