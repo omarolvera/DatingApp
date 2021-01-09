@@ -57,6 +57,11 @@ initializeUploader(){
         isMain: res.isMain
       };
       this.photos.push(photo);
+      if(photo.isMain){//to allow update the navbar user image
+        this.authService.changeMemberPhoto(photo.url);
+        this.authService.currentUser.photoUrl = photo.url;
+        localStorage.setItem('user', JSON.stringify(this.authService.currentUser));
+      }
     }
   };
 
