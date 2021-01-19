@@ -32,6 +32,7 @@ import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { TimeagoModule } from 'ngx-timeago';
 
 
 
@@ -71,8 +72,8 @@ export function tokenGetter() {
         disallowedRoutes: ['localhost:5000/api/auth']
       }
     }),
-    TabsModule.forRoot()
-    
+    TabsModule.forRoot(),
+    TimeagoModule.forRoot()
   ],
   providers: [
     AuthService, 
