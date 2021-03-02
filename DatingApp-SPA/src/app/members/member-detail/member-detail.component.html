@@ -44,6 +44,7 @@
                     </tab>
                     <tab heading="Photos">
                         <ngx-gallery style="display: inline-block; margin-bottom:20px;" [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
+                        <input type="checkbox" (change)="startStopSlide($event)"> 
                     </tab>
                   </tabset>
             </div>

@@ -32,6 +32,7 @@ galleryImages: NgxGalleryImage[];
         thumbnailsColumns: 4,
         imageAnimation: NgxGalleryAnimation.Slide,
         preview:false
+       
       }]
 
       this.galleryImages = this.getImages();
@@ -48,6 +49,23 @@ galleryImages: NgxGalleryImage[];
       });
     }
     return imageUrls;
+  }
+
+  startStopSlide(event: any){
+    
+    if(event.currentTarget.checked){
+      
+      this.galleryOptions.push(
+       {   width: '500px',
+       height: '500px',
+       thumbnailsColumns: 4,
+       imageAnimation: NgxGalleryAnimation.Slide,
+       preview:false,
+        imageAutoPlay: true,
+        imageAutoPlayInterval: 3000
+      });
+      
+    }
   }
 
   //so this will be disabled and instead we use resolver
