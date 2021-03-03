@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Http;
 using DatingApp.API.Helpers;
 using AutoMapper;
 
+
 namespace DatingApp.API
 {
     public class Startup
@@ -33,12 +34,26 @@ namespace DatingApp.API
 
         public IConfiguration Configuration { get; }
 
+        public void ConfigureDevelopmentServices(IServiceCollection services){
+                services.AddDbContext<DataContext>(x=> 
+             x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+             ConfigureServices(services);
+        }       
+
+        public void ConfigureProductionServices(IServiceCollection services){
+                services.AddDbContext<DataContext>(x=> 
+             x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+
+             ConfigureServices(services);
+        }     
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             //inject from nuget Microsoft.EntityFrameworkCore.Sqlite
-             services.AddDbContext<DataContext>(x=> 
-             x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            //  services.AddDbContext<DataContext>(x=> 
+            //  x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
              services.AddCors();
              services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
              services.AddAutoMapper(typeof(DatingRepository).Assembly);
@@ -93,9 +108,13 @@ namespace DatingApp.API
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseDefaultFiles();//to work on production mode
+            app.UseStaticFiles();//to work on production mode
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index","Fallback");//to work on production to allow on refresh not lost controller
             });
         }
     }
